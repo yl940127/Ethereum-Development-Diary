@@ -29,9 +29,9 @@ sudo apt install software-properties-common
   sudo apt update
 ```
   - 1.3安装 go-ethereum：
-   ```
-    sudo apt install ethereum
-   ```
+ ```
+  sudo apt install ethereum
+ ```
   - 1.4安装solidity编译器
  ```
     sudo add-apt-repository ppa:ethereum/ethereum
@@ -43,7 +43,7 @@ sudo apt install software-properties-common
 2. 私有链的搭建
   - 2.1 配置初始状态<br/>
 要运行以太坊私有链，需要定义自己的创世区块，创世区块信息写在一个 JSON 格式的配置文件中。配置文件如下：<br/>
- ```JSON
+ ```
 { "config":{
  "chainID": 15,
  "homesteadBlock": 0,
@@ -68,6 +68,7 @@ sudo apt install software-properties-common
 privatechain<br/>
 ├── data0<br/>
 └── genesis.json<br/>
+
 ```
  cd privatechain<br/>
  sudo geth --datadir data0 init genesis.json<br/>
@@ -80,65 +81,66 @@ privatechain<br/>
 这是一个交互式的Javascript执行环境，在这里面可以执行Javascript代码，其中>是命令提示符。在这个环境里也内置了一些用来操作以太坊的Javascript对象，可以直接使用这些对象。
 ### part3 钱包账户的基本操作
 在私有网络下进行账户钱包操作
-  1. 创建账户
+  - 1. 创建账户
 ```
 > personal.newAccount()  账户0
 > personal.newAccount()  账户1
 ```
-  2. 查看账户余额
+  - 2. 查看账户余额
+
+```
+eth.getBalance(eth.accounts[0])账户0的余额（初始为0)
+eth.getBalance(eth.accounts[1])账户1的余额
+```
+ - 3. 启动&停止挖矿
+ 启动挖矿：
+```
+miner.start(1)
+```
+其中 start 的参数表示挖矿使用的线程数。第一次启动挖矿会先生成挖矿所需的 DAG 文件，这个过程有点慢，等进度达到 100% 后，就会开始挖矿，此时屏幕会被挖矿信息刷屏。<br/>
+停止挖矿，在 console 中输入
  ```
-> eth.getBalance(eth.accounts[0])账户0的余额（初始为0)
-> eth.getBalance(eth.accounts[1])账户1的余额
- ```
- 3. 启动&停止挖矿
-  - 启动挖矿：
-	 ```
-> miner.start(1)
- ```
-- 其中 start 的参数表示挖矿使用的线程数。第一次启动挖矿会先生成挖矿所需的 DAG 文件，这个过程有点慢，等进度达到 100% 后，就会开始挖矿，此时屏幕会被挖矿信息刷屏。<br/>
-停止挖矿，在 console 中输入<br/>
- ```
-> miner.stop()
+ miner.stop()
  ```
  - 挖到一个区块会奖励5个以太币，挖矿所得的奖励会进入矿工的账户。
-4. 发送交易
+- 4. 发送交易
 (1)查看账户余额:
+
 ```
 eth.getBalance(eth.accounts[0])
 ```
-(2)我们要从账户 0 向账户 1 转账，所以要先解锁账户 0，才能发起交易：
+(2)我们要从账户 0 向账户 1 转账，所以要先解锁账户 0，才能发起交易
+
 ```
 personal.unlockAccount(eth.accounts[0])
 ```
 3)发送交易，账户 0 -> 账户 1:
-```
-> amount = web3.toWei(10,'ether')
-```
+
+> amount = web3.toWei(10,'ether')<br/>
 "1000000000000000000"
 ```
 eth.sendTransaction({from:eth.accounts[0],to:eth.accounts[1],value:amount})
+
 ```
 4)使用 miner.start() 命令开始挖矿:<br/>
+
 ```
  miner.start(2);admin.sleepBlocks(1);miner.stop();
- ```
+```
 5)新区块挖出后，挖矿结束，查看账户 1 的余额，已经收到了账户 0 的以太币：
+
 ```
 web3.fromWei(eth.getBalance(eth.accounts[1]),'ether’)
 ```
 10(结果)<br/>
 5. 查看交易和区块
- ```
-eth.blockNumber
- ```
+>eth.blockNumber
 通过交易 Hash 查看交易（Hash 值包含在上面交易返回值中）：
  ```
 eth.getTransaction("交易Hash 值")
  ```
 通过区块号查看区块：
- ```
-eth.getBlock(0)<br/>
- ```
+>eth.getBlock(0)
 6. 连接到其他节点
 为了在本地网络运行多个以太坊节点的实例,必须确保以下几点:
 - 每个实例都有独立的数据目录(--datadir)
@@ -161,6 +163,7 @@ eth.getBlock(0)<br/>
 ### part4 智能合约部署流程
 一. 创建和编译智能合约<br/>
 新建一个 Solidity 智能合约文件，命名为 HelloWorld.sol，该合约包含一个方法 sayHello ( )，将输出Hello World.
+
 ```solidity
 pragma solidity ^0.4.4;
 contract HelloWorld
