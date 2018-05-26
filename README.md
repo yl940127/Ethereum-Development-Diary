@@ -20,9 +20,9 @@
 环境搭建
 1. 安装以太坊客户端
   - 1.1 安装必要的工具包：
-```
-sudo apt install software-properties-common
-```
+ ```
+  sudo apt install software-properties-common
+ ```
   - 1.2添加以太坊源：
 ```
   sudo add-apt-repository -y ppa:ethereum/ethereum
@@ -34,9 +34,9 @@ sudo apt install software-properties-common
  ```
   - 1.4安装solidity编译器
  ```
-    sudo add-apt-repository ppa:ethereum/ethereum
-    sudo apt update
-    sudo apt install solc
+  sudo add-apt-repository ppa:ethereum/ethereum
+  sudo apt update
+  sudo apt install solc
  ```
   - 1.5开发环境选择：私有链/测试链<br/>
   在以太坊的公有链上部署智能合约、发起交易需要花费以太币。而通过修改配置，可以在本机搭建一套以太坊私有链，因为与公有链没关系，既不用同步公有链庞大的数据，也不用花钱购买以太币，很好地满足了智能合约开发和测试的要求，开发好的智能合约也可以很容易地切换接口部署到以太坊公有链上。<br/>
@@ -68,7 +68,6 @@ sudo apt install software-properties-common
 privatechain<br/>
 ├── data0<br/>
 └── genesis.json<br/>
-
 ```
  cd privatechain<br/>
  sudo geth --datadir data0 init genesis.json<br/>
@@ -83,25 +82,25 @@ privatechain<br/>
 在私有网络下进行账户钱包操作
   - 1. 创建账户
 ```
-> personal.newAccount()  账户0
-> personal.newAccount()  账户1
+personal.newAccount()  账户0
+personal.newAccount()  账户1
 ```
-  - 2. 查看账户余额
+- 2. 查看账户余额
 
 ```
 eth.getBalance(eth.accounts[0])账户0的余额（初始为0)
 eth.getBalance(eth.accounts[1])账户1的余额
 ```
- - 3. 启动&停止挖矿
- 启动挖矿：
+- 3. 启动&停止挖矿
+启动挖矿：
 ```
 miner.start(1)
 ```
 其中 start 的参数表示挖矿使用的线程数。第一次启动挖矿会先生成挖矿所需的 DAG 文件，这个过程有点慢，等进度达到 100% 后，就会开始挖矿，此时屏幕会被挖矿信息刷屏。<br/>
 停止挖矿，在 console 中输入
- ```
- miner.stop()
- ```
+```
+miner.stop()
+```
  - 挖到一个区块会奖励5个以太币，挖矿所得的奖励会进入矿工的账户。
 - 4. 发送交易
 (1)查看账户余额:
@@ -125,7 +124,7 @@ eth.sendTransaction({from:eth.accounts[0],to:eth.accounts[1],value:amount})
 4)使用 miner.start() 命令开始挖矿:<br/>
 
 ```
- miner.start(2);admin.sleepBlocks(1);miner.stop();
+miner.start(2);admin.sleepBlocks(1);miner.stop();
 ```
 5)新区块挖出后，挖矿结束，查看账户 1 的余额，已经收到了账户 0 的以太币：
 
@@ -150,8 +149,8 @@ eth.getTransaction("交易Hash 值")
 下面是输入指令：<br/>
 节点2
 ```
->geth --datadir data5 init genesis.json
->geth --datadir data5 --networkid 15 --ipcdisable --port 6191 --rpcaddr ip_address --rpcport 8105 console
+geth --datadir data5 init genesis.json
+geth --datadir data5 --networkid 15 --ipcdisable --port 6191 --rpcaddr ip_address --rpcport 8105 console
 ```
 - 首先要知道节点1的 enode 信息，在节点1的 JavaScript console 中执行下面的命令查看 enode 信息：<br/>
 >admin.nodeInfo.enode<br/>
