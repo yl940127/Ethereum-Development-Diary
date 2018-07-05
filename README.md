@@ -278,5 +278,5 @@ compile
 1)打开http://remix.ethereum.org/<br/>
 2)将上述代码直接粘贴到左侧编辑器中，会自动编译查错，正常编译通过后，可以在右侧面板点击run选项。<br/>
 3)初始化合约，点击deploy(create)，通过remix + metamask部署合约到测试网络，并得到合约地址。<br/>
-6.修改app.js前端代码和合约进行互动<br/>
+6.设计UI界面(修改app.js前端代码)和合约进行互动<br/>
 7.终端运行 npm start，查看网页效果<br/>
